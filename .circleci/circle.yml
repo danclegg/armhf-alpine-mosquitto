@@ -1,0 +1,19 @@
+version: 2
+
+jobs:
+  checkout_code:
+    docker:
+      - image: armhf/alpine:latest
+    working_directory: ~/alpine
+    parallelism: 4
+    steps:
+      - checkout
+      - save_cache:
+          key: v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/alpine
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - checkout_code
